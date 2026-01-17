@@ -1,0 +1,185 @@
+# ahsan
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Love for You ❤️</title>
+    <style>
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe6f0, #e6f7ff);
+            color: #333;
+            overflow-x: hidden;
+        }
+        .slide {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.8s ease;
+        }
+        .slide h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ff69b4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .slide p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff1493;
+            animation: float 3s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(180deg); }
+        }
+        .image-container {
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3d 5s infinite linear;
+        }
+        @keyframes rotate3d {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        .image-container img {
+            width: 300px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        .nav button {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .nav button:hover {
+            background: #ff1493;
+        }
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .confetti div {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="slides">
+        <div class="slide active" id="slide1">
+            <h1>Hey My Love ❤️</h1>
+            <p>Welcome to this little surprise I made just for you. Scroll or click to continue...</p>
+            <div class="heart" style="top: 20%; left: 10%;">💖</div>
+            <div class="heart" style="top: 30%; right: 15%;">💕</div>
+            <div class="heart" style="bottom: 40%; left: 20%;">💗</div>
+        </div>
+        <div class="slide" id="slide2">
+            <h1>Sorry for Being an Ass Sometimes 😔</h1>
+            <p>I'm sorry for those times I act like a total ass—being moody, stubborn, or just plain difficult. But you handle it all so perfectly, with patience and love that blows me away. You're the greatest guy ever, and I'm so lucky to have met you. You're lucky too, because no other guy could ever take your place in my heart. I love you so much for bearing with me and making me feel cherished every single day. You're my everything! 💕</p>
+            <div class="heart" style="top: 10%; right: 10%;">💖</div>
+            <div class="heart" style="bottom: 20%; left: 15%;">💕</div>
+        </div>
+        <div class="slide" id="slide3">
+            <h1>I Love You So Much 💖</h1>
+            <p>My dearest love, I want you to know that my heart beats only for you. Every moment we share feels like a beautiful dream I never want to wake from. You're the one who makes my world brighter, turning ordinary days into extraordinary adventures. I love how you handle my emotions with such grace, bearing my quirks and moods without a single complaint. You're patient, kind, and incredibly strong, always knowing exactly what to say to lift me up. I'm so lucky to have met you—it's like the universe conspired to bring us together, and I wouldn't trade that for anything. No other guy could ever compare; you're my everything, my rock, my joy. Your smile lights up my soul, and your touch sends shivers of happiness through me. I cherish the way you laugh at my jokes, even the silly ones, and how you hold me close when I need it most. You're perfect in your imperfections, and I adore every part of you. Thank you for loving me back, for being my constant in this chaotic world. I promise to cherish you forever, to grow with you, and to make you feel as loved as you make me feel. You're my forever, my one and only, and I love you more than words can express. Let's keep building our beautiful life together, hand in hand.</p>
+            <div class="heart" style="top: 5%; left: 5%;">💗</div>
+            <div class="heart" style="bottom: 10%; right: 5%;">💖</div>
+        </div>
+        <div class="slide" id="slide4">
+            <h1>Forever Yours ❤️</h1>
+            <div class="image-container">
+                <img src="https://via.placeholder.com/300x200?text=Cute+Couple+Kissing+Hugging" alt="Cute girl and boy kissing on cheeks and hugging">
+            </div>
+            <p>Just like this cute couple, I want to kiss your cheeks and hug you forever. I love you endlessly! 💕</p>
+            <div class="confetti" id="confetti"></div>
+        </div>
+    </div>
+    <div class="nav">
+        <button onclick="prevSlide()">Previous</button>
+        <button onclick="nextSlide()">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        // Auto-scroll on wheel
+        window.addEventListener('wheel', (e) => {
+            if (e.deltaY > 0) nextSlide();
+            else prevSlide();
+        });
+
+        // Confetti effect on final slide
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confettiContainer.appendChild(confetti);
+            }
+        }
+        if (document.querySelector('#slide4.active')) createConfetti();
+        document.addEventListener('DOMContentLoaded', () => {
+            if (currentSlide === 3) createConfetti();
+        });
+    </script>
+</body>
+</html>
