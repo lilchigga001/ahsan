@@ -3,39 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Quest: My Heart for You 💖</title>
+    <title>Love Adventure Game 💖</title>
     <style>
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif; /* Fun, playful font */
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #ff9ff3, #54a0ff, #5f27cd);
+            background: linear-gradient(135deg, #ffb3ba, #ffdfba, #ffffba);
             color: #fff;
-            overflow-x: hidden;
-            position: relative;
+            overflow: hidden;
+            perspective: 1000px; /* 3D perspective for the whole page */
         }
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .particle {
+        .level {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ff9ff3;
-            border-radius: 50%;
-            animation: float 5s infinite ease-in-out;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-50px) rotate(180deg); }
-        }
-        .slide {
+            width: 100%;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -43,101 +24,55 @@
             align-items: center;
             text-align: center;
             padding: 20px;
-            position: relative;
-            transition: transform 0.8s ease;
             transform-style: preserve-3d;
+            transition: all 1s ease-in-out;
+            opacity: 0;
+            transform: rotateY(90deg) scale(0.5);
         }
-        .slide h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            color: #ffd700;
+        .level.active {
+            opacity: 1;
+            transform: rotateY(0deg) scale(1);
+        }
+        .level.outro {
+            opacity: 0;
+            transform: rotateY(-90deg) scale(0.5);
+        }
+        h1 {
+            font-size: 4rem;
+            color: #ff69b4;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
-            animation: bounce 1.5s infinite;
+            animation: bounce 2s infinite;
+            transform: rotateX(10deg);
         }
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translateY(0) rotateX(10deg); }
+            50% { transform: translateY(-20px) rotateX(15deg); }
         }
-        .slide p {
-            font-size: 1.3rem;
+        p {
+            font-size: 1.5rem;
             max-width: 600px;
-            line-height: 1.6;
             background: rgba(255,255,255,0.9);
             color: #333;
             padding: 20px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(255,105,180,0.5);
+            transform: rotateY(5deg) rotateX(5deg);
+            animation: rotateText 3s infinite linear;
+        }
+        @keyframes rotateText {
+            0% { transform: rotateY(5deg) rotateX(5deg); }
+            50% { transform: rotateY(-5deg) rotateX(-5deg); }
+            100% { transform: rotateY(5deg) rotateX(5deg); }
         }
         .heart {
             font-size: 3rem;
-            cursor: pointer;
-            transition: transform 0.3s;
-            margin: 10px;
-            display: inline-block;
-        }
-        .heart:hover {
-            transform: scale(1.5) rotate(45deg);
-        }
-        .quiz {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .quiz button {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            margin: 10px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .quiz button:hover {
-            background: #ff4757;
-            transform: scale(1.1);
-        }
-        .score {
-            font-size: 2rem;
-            color: #ffd700;
-            margin-top: 20px;
-        }
-        .image-container {
-            position: relative;
+            position: absolute;
+            animation: floatHeart 4s infinite ease-in-out;
             transform-style: preserve-3d;
-            animation: rotate3d 5s infinite linear;
         }
-        @keyframes rotate3d {
-            0% { transform: rotateX(0deg) rotateY(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg); }
-        }
-        .image-container img {
-            width: 300px;
-            height: auto;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
-        .nav {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-        }
-        .nav button {
-            background: #ffd700;
-            color: #333;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .nav button:hover {
-            background: #ffeb3b;
+        @keyframes floatHeart {
+            0%, 100% { transform: translateY(0) rotateZ(0deg) translateZ(0); }
+            50% { transform: translateY(-50px) rotateZ(180deg) translateZ(50px); }
         }
         .confetti {
             position: absolute;
@@ -147,106 +82,135 @@
             height: 100%;
             pointer-events: none;
             overflow: hidden;
+            z-index: 10;
         }
         .confetti div {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ff6b6b;
-            animation: fall 3s linear infinite;
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(45deg, #ff69b4, #ffd700);
+            border-radius: 50%;
+            animation: fallConfetti 3s linear infinite;
         }
-        @keyframes fall {
+        @keyframes fallConfetti {
             0% { transform: translateY(-100vh) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
+            100% { transform: translateY(100vh) rotate(720deg); }
+        }
+        .image-container {
+            transform-style: preserve-3d;
+            animation: spinImage 5s infinite linear;
+        }
+        @keyframes spinImage {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+        .image-container img {
+            width: 300px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255,105,180,0.6);
+            border: 5px solid #ff69b4;
+        }
+        button {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,105,180,0.5);
+            transform: rotateX(5deg);
+        }
+        button:hover {
+            transform: scale(1.1) rotateX(10deg);
+            box-shadow: 0 10px 25px rgba(255,20,147,0.7);
+        }
+        .sparkle {
+            position: absolute;
+            font-size: 2rem;
+            color: #ffd700;
+            animation: sparkle 1.5s infinite ease-in-out;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.5) rotate(180deg); }
         }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    <div class="slides">
-        <div class="slide active" id="slide1">
-            <h1>Welcome to Love Quest! 💖</h1>
-            <p>Embark on a fun adventure to discover how much I love you! Click the hearts to collect points and unlock surprises. Let's play!</p>
-            <div class="heart" onclick="collectHeart()">💕</div>
-            <div class="heart" onclick="collectHeart()">💗</div>
-            <div class="heart" onclick="collectHeart()">💖</div>
-            <div class="score">Score: <span id="score">0</span></div>
+    <div class="levels">
+        <div class="level active" id="level1">
+            <h1>Welcome to Love Adventure! 💖✨</h1>
+            <p>Hey my cute boyfriend! Get ready for a super fun game full of love and surprises. Click to start your adventure!</p>
+            <button onclick="nextLevel()">Start Game! 🎮</button>
+            <div class="heart" style="top: 20%; left: 10%;">💕</div>
+            <div class="heart" style="top: 30%; right: 15%;">💗</div>
+            <div class="heart" style="bottom: 40%; left: 20%;">💖</div>
+            <div class="sparkle" style="top: 50%; right: 20%;">✨</div>
         </div>
-        <div class="slide" id="slide2">
-            <h1>Love Quiz Time! ❓</h1>
-            <p>Answer these to prove you're the best! (Hint: All answers are about you!)</p>
-            <div class="quiz">
-                <p>What makes you my favorite person?</p>
-                <button onclick="answerQuiz('right')">Your amazing patience with my moods!</button>
-                <button onclick="answerQuiz('wrong')">Being super quiet all the time.</button>
-                <p>How lucky am I to have you?</p>
-                <button onclick="answerQuiz('right')">Extremely lucky!</button>
-                <button onclick="answerQuiz('wrong')">Not at all.</button>
-            </div>
-            <div class="score">Score: <span id="score2">0</span></div>
+        <div class="level" id="level2">
+            <h1>Level 1: Sorry for Being a Pain in the Ass 😔💕</h1>
+            <p>My dearest boyfriend, I'm so sorry for being a total pain in the ass sometimes—moody, stubborn, and just plain annoying. But you handle it all with such amazing patience and love. You're the best, and I promise to be better! You're my hero! 💖</p>
+            <button onclick="nextLevel()">Next Level! 🌟</button>
+            <div class="confetti" id="confetti2"></div>
         </div>
-        <div class="slide" id="slide3">
-            <h1>My Love Letter to You 💌</h1>
-            <p>My dearest love, I want you to know that my heart beats only for you. Every moment we share feels like a beautiful dream I never want to wake from. You're the one who makes my world brighter, turning ordinary days into extraordinary adventures. I love how you handle my emotions with such grace, bearing my quirks and moods without a single complaint. You're patient, kind, and incredibly strong, always knowing exactly what to say to lift me up. I'm so lucky to have met you—it's like the universe conspired to bring us together, and I wouldn't trade that for anything. No other guy could ever compare; you're my everything, my rock, my joy. Your smile lights up my soul, and your touch sends shivers of happiness through me. I cherish the way you laugh at my jokes, even the silly ones, and how you hold me close when I need it most. You're perfect in your imperfections, and I adore every part of you. Thank you for loving me back, for being my constant in this chaotic world. I promise to cherish you forever, to grow with you, and to make you feel as loved as you make me feel. You're my forever, my one and only, and I love you more than words can express. Let's keep building our beautiful life together, hand in hand.</p>
+        <div class="level" id="level3">
+            <h1>Level 2: Cute Messages Just for You! 💌</h1>
+            <p>You're the cutest, sweetest boyfriend ever! I feel so lucky to have met you—it's like fate brought us together. No one else could make me smile like you do. I love your laugh, your hugs, and everything about you. You're my world! 😘💕</p>
+            <button onclick="nextLevel()">Final Level! 🎉</button>
+            <div class="heart" style="top: 10%; right: 10%;">💗</div>
+            <div class="heart" style="bottom: 20%; left: 15%;">💖</div>
+            <div class="sparkle" style="top: 40%; left: 5%;">🌟</div>
         </div>
-        <div class="slide" id="slide4">
-            <h1>Final Surprise! 🎉</h1>
+        <div class="level" id="level4">
+            <h1>Final Level: Forever Yours! ❤️</h1>
             <div class="image-container">
                 <img src="https://via.placeholder.com/300x200?text=Cute+Couple+Kissing+Hugging" alt="Cute girl and boy kissing on cheeks and hugging">
             </div>
-            <p>Just like this cute couple, I want to kiss your cheeks and hug you forever. You scored <span id="finalScore">0</span> points—perfect for my perfect guy! I love you endlessly! 💕</p>
-            <div class="confetti" id="confetti"></div>
+            <p>Just like this adorable couple, I want to kiss your cheeks and hug you forever! You're my everything, my love. I love you so much! 💕✨</p>
+            <button onclick="restartGame()">Play Again! 🔄</button>
+            <div class="confetti" id="confetti4"></div>
         </div>
-    </div>
-    <div class="nav">
-        <button onclick="prevSlide()">Previous</button>
-        <button onclick="nextSlide()">Next</button>
     </div>
 
     <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-        let score = 0;
+        let currentLevel = 0;
+        const levels = document.querySelectorAll('.level');
+        const totalLevels = levels.length;
 
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
+        function showLevel(index) {
+            levels.forEach((level, i) => {
+                if (i === index) {
+                    level.classList.add('active');
+                    level.classList.remove('outro');
+                    if (i === 1 || i === 3) createConfetti(i + 1); // Confetti on apology and final
+                } else if (i < index) {
+                    level.classList.add('outro');
+                    level.classList.remove('active');
+                } else {
+                    level.classList.remove('active', 'outro');
+                }
             });
-            if (index === 3) createConfetti();
         }
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            showSlide(currentSlide);
-        }
-
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            showSlide(currentSlide);
-        }
-
-        function collectHeart() {
-            score += 10;
-            document.getElementById('score').textContent = score;
-            document.getElementById('score2').textContent = score;
-            document.getElementById('finalScore').textContent = score;
-        }
-
-        function answerQuiz(type) {
-            if (type === 'right') {
-                score += 20;
-                alert('Correct! You know me so well! 💖');
-            } else {
-                alert('Oops! Try again for more points! 😊');
+        function nextLevel() {
+            if (currentLevel < totalLevels - 1) {
+                currentLevel++;
+                showLevel(currentLevel);
             }
-            document.getElementById('score2').textContent = score;
-            document.getElementById('finalScore').textContent = score;
         }
 
-        function createConfetti() {
-            const confettiContainer = document.getElementById('confetti');
-            for (let i = 0; i < 50; i++) {
+        function restartGame() {
+            currentLevel = 0;
+            showLevel(currentLevel);
+        }
+
+        function createConfetti(levelNum) {
+            const confettiContainer = document.getElementById(`confetti${levelNum}`);
+            confettiContainer.innerHTML = '';
+            for (let i = 0; i < 100; i++) {
                 const confetti = document.createElement('div');
                 confetti.style.left = Math.random() * 100 + '%';
                 confetti.style.animationDelay = Math.random() * 3 + 's';
@@ -254,24 +218,10 @@
             }
         }
 
-        // Generate particles
-        function generateParticles() {
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-        generateParticles();
-
-        // Auto-advance or wheel scroll
-        window.addEventListener('wheel', (e) => {
-            if (e.deltaY > 0) nextSlide();
-            else prevSlide();
-        });
+        // Auto-advance after 5 seconds for game feel
+        setInterval(() => {
+            if (currentLevel < totalLevels - 1) nextLevel();
+        }, 5000);
     </script>
 </body>
 </html>
